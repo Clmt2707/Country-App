@@ -1,16 +1,27 @@
 // Fonction pour récupérer le pays
-const countryName = document.getElementsByClassName('countries-container');
+const countriesContainer = document.querySelector('.countries-container');
+let countriesData  = [];
 
-
-function getCountry () {
-    fetch('https://restcountries.com/v3.1/all')
+async function getCountry () {
+    await fetch('https://restcountries.com/v3.1/all')
         .then((res) => res.json())
         .then((data) => {
-            console.log(data);
-            countryName.textContent = data[0].name.common;
-
+            countriesData = data;
             
-        })
+        }) 
+        console.log(countriesData);
+        countriesDisplay();
 }
 
-getCountry();
+function countriesDisplay () {
+    countriesContainer.innerHTML = countriesData.map((country) =>
+            `
+            <div class="card">
+                <h2>${country.translations.fra.common}</h2>
+                <img src="${country.flags.svg}" alt="Drapeau ${country.name.common}></img>
+            </div>
+            `
+    );
+}
+
+window.addEventListener('load', getCountry)
