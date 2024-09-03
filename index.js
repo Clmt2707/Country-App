@@ -1,6 +1,10 @@
 // Fonction pour récupérer le pays
 const countriesContainer = document.querySelector('.countries-container');
 let countriesData  = [];
+const btnSort = document.querySelectorAll(".btnSort");
+let sortMethod = "maxToMin";
+
+
 
 async function getCountry () {
     await fetch('https://restcountries.com/v3.1/all')
@@ -17,6 +21,20 @@ async function getCountry () {
 function countriesDisplay () {
     countriesContainer.innerHTML = countriesData
         .filter((country) => country.translations.fra.common.toLowerCase().includes(inputSearch.value.toLowerCase()))
+
+        .sort((a, b) => {
+            if (sortMethod === "maxToMin") {
+                return b.population - a.population;
+            } else if (sortMethod === "minToMax") {
+                return a.population - b.population;
+            } else if (sortMethod === "alpha") {
+                return a.translations.fra.common.localeCompare(b.translations.fra.common);
+            }
+            
+        })
+
+        .slice(0, inputRange.value)
+
         .map((country) =>
         `
                <div class="card">
@@ -32,3 +50,14 @@ function countriesDisplay () {
 
 window.addEventListener("load", getCountry);
 inputSearch.addEventListener('input', countriesDisplay);
+inputRange.addEventListener('input', () => {
+    countriesDisplay();
+    rangeValue.textContent = inputRange.value;
+})
+
+btnSort.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        sortMethod = e.target.id;
+        countriesDisplay();
+    });
+});
