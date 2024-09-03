@@ -21,6 +21,7 @@ function countriesDisplay () {
                     <img src=${country.flags.svg} alt="Drapeau ${country.name.common}" >  
                     <h2>${country.translations.fra.common}</h2>
                     <h4>${country.capital}</h4>
+                    <p>${country.population.toLocaleString()}</p>
                 </div>
             `
         ).join('');
