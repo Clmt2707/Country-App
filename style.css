@@ -37,3 +37,9 @@ input[type="range"] {
     border-radius: 30px;
     border: 1px solid #000;
 }
+
+img {
+    height: 100px;
+    width: 160px;
+    object-fit: cover;
+}
