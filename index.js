@@ -15,7 +15,9 @@ async function getCountry () {
 
 
 function countriesDisplay () {
-    countriesContainer.innerHTML = countriesData.map((country) =>
+    countriesContainer.innerHTML = countriesData
+        .filter((country) => country.translations.fra.common.toLowerCase().includes(inputSearch.value.toLowerCase()))
+        .map((country) =>
         `
                <div class="card">
                     <img src=${country.flags.svg} alt="Drapeau ${country.name.common}" >  
@@ -29,3 +31,4 @@ function countriesDisplay () {
 
 
 window.addEventListener("load", getCountry);
+inputSearch.addEventListener('input', countriesDisplay);
